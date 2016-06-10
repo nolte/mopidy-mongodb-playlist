@@ -63,9 +63,7 @@ class MongoDBPlaylistsProvider(backend.PlaylistsProvider):
               "tracks": translator.playlist_to_db_object(playlist.tracks),
               "last_modified": millis
               
-          },
-          "$currentDate": {"lastModified": True}
-          })
+          }})
           logger.info("save json: "+json.dumps(playlist,cls=ModelJSONEncoder))
           playlistObj = translator.playlist_from_db_object(playlistToSave)
           return playlist
