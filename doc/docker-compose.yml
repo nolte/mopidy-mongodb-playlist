@@ -1,0 +1,21 @@
+#https://hub.docker.com/r/wernight/mopidy/
+mopidy-dev:
+  build: ../.
+  dockerfile: DockerfileMopidy
+  volumes:
+    - ./mopidy.conf:/var/lib/mopidy/.config/mopidy/mopidy.conf
+  expose: 
+    - "6379"
+  ports: 
+    - "6600:6600"
+    - "6680:6680" 
+  command: "mopidy --config /var/lib/mopidy/.config/mopidy/mopidy.conf"
+  net: "host"
+
+mongodb:
+  image: mongo:3.3.6
+  expose: 
+    - "27017"
+  ports: 
+    - "27017:27017"
+  net: "host"        
