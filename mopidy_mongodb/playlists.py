@@ -38,13 +38,12 @@ class MongoDBPlaylistsProvider(backend.PlaylistsProvider):
     def as_list(self):
 
         count = self.db.playlist.count()
-        logger.info("playlist Count: %s ", count)
+        logger.debug("playlist Count: %s ", count)
         result = []
 
         # todo implements find by group latest manage by uri
 
         for dbPlaylist in self.db.playlist.find():
-            logger.info("dbPlaylist")
             result.append(translator.db_to_ref(dbPlaylist))
 
         return result
@@ -61,7 +60,7 @@ class MongoDBPlaylistsProvider(backend.PlaylistsProvider):
                     "last_modified": millis
 
                 }})
-            logger.info("save json: " +
+            logger.debug("save json: " +
                         json.dumps(playlist, cls=ModelJSONEncoder))
             translator.playlist_from_db_object(playlistToSave)
             return playlist
@@ -95,7 +94,7 @@ class MongoDBPlaylistsProvider(backend.PlaylistsProvider):
     def create(self, name):
         logger.debug("create playlist with name: " + name)
         playlist = translator.playlist_from_name(name)
-        logger.info("json: " + json.dumps(playlist, cls=ModelJSONEncoder))
+        logger.debug("json: " + json.dumps(playlist, cls=ModelJSONEncoder))
         playListDB = translator.playlist_to_db_object(playlist)
         self.db.playlist.insert_one(playListDB).inserted_id
         playlistDbObj = self._findPlaylistByUri(playlist.uri)
