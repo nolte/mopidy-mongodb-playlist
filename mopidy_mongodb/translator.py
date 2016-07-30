@@ -48,8 +48,10 @@ except ImportError:
     def fsdecode(filename, encoding=sys.getfilesystemencoding()):
         return filename.decode(encoding, 'replace')
 
+
 def path_from_name(name, scheme=Extension.ext_name):
-        return fsencode(scheme+':'+name)
+    return fsencode(scheme + ':' + name)
+
 
 def path_to_uri(path, scheme=Extension.ext_name):
     """Convert file path to URI."""
@@ -64,10 +66,12 @@ def name_from_path(path):
     except UnicodeError:
         return None
 
+
 def uri_to_path(uri):
     """Convert URI to file path."""
     # TODO: decide on Unicode vs. bytes for URIs
     return unquote_to_bytes(urlsplit(uri).path)
+
 
 def db_to_ref(db):
     return models.Ref.playlist(
@@ -75,26 +79,28 @@ def db_to_ref(db):
         name=db['name']
     )
 
+
 def track_db_to_ref(db):
     return models.Ref.track(
         uri=db['uri'],
         name=db['name']
     )
 
-def playlist_to_db_object(playlist):
-  return json.loads(json.dumps(playlist,cls=ModelJSONEncoder))
 
+def playlist_to_db_object(playlist):
+    return json.loads(json.dumps(playlist, cls=ModelJSONEncoder))
 
 
 def playlist_from_db_object(dbObj):
     dbObj['_id'] = 1
     dbObj['lastModified'] = 1
     del dbObj['_id']
-    del dbObj['lastModified']      
-    
-    playlistJson = json.dumps(dbObj,default=json_util.default);
-    playlistMopidy = json.loads(playlistJson,object_hook=model_json_decoder)
+    del dbObj['lastModified']
+
+    playlistJson = json.dumps(dbObj, default=json_util.default)
+    playlistMopidy = json.loads(playlistJson, object_hook=model_json_decoder)
     return playlistMopidy
+
 
 def playlist_from_name(name):
     return models.Playlist(

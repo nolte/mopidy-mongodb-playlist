@@ -35,4 +35,3 @@ class Extension(ext.Extension):
         logger.debug("init the mopdiy extention")
         from .backend import MongoDBBackend
         registry.add('backend', MongoDBBackend)
-
