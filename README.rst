@@ -49,6 +49,11 @@ Project resources
 Changelog
 =========
 
+v1.0.0 (PLANED)
+----------------------------------------
+
+- Frontend to Managed Playlists
+
 v0.1.0 (UNRELEASED)
 ----------------------------------------
 
