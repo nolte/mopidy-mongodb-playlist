@@ -10,11 +10,11 @@ Mopidy-MongoDB-Playlist
     :target: https://pypi.python.org/pypi/Mopidy-MongoDB-Playlist/
     :alt: Number of PyPI downloads
 
-.. image:: https://img.shields.io/travis//mopidy-mongodb-playlist/master.svg?style=flat
+.. image:: https://img.shields.io/travis/nolte/mopidy-mongodb-playlist/master.svg?style=flat
     :target: https://travis-ci.org/nolte/mopidy-mongodb-playlist
     :alt: Travis CI build status
 
-.. image:: https://img.shields.io/coveralls//mopidy-mongodb-playlist/master.svg?style=flat
+.. image:: https://img.shields.io/coveralls/nolte/mopidy-mongodb-playlist/master.svg?style=flat
    :target: https://coveralls.io/r/nolte/mopidy-mongodb-playlist
    :alt: Test coverage
 
