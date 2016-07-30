@@ -48,16 +48,16 @@ Project resources
 Usage
 =============
 
- The extensions are support the `Mopidy json-rpc <http://mopidy.readthedocs.io/en/latest/api/http/#json-rpc>`_
- with the `playlists-provider <http://mopidy.readthedocs.io/en/latest/api/backend/#playlists-provider>`_  
- for all requests you must use the ``"uri_scheme": "mongodb"``
+The extensions are support the `Mopidy json-rpc <http://mopidy.readthedocs.io/en/latest/api/http/#json-rpc>`_
+with the `playlists-provider <http://mopidy.readthedocs.io/en/latest/api/backend/#playlists-provider>`_  
+for all requests you must use the ``"uri_scheme": "mongodb"``
  
 
 By RestAPI
 ===============
 
- First you must Create an new Playlist.
- Mopidy HTTP Post JSon Content, to create a new playlist::
+First you must Create an new Playlist.
+Mopidy HTTP Post JSon Content, to create a new playlist::
 
 	{
 	  "method": "core.playlists.create",
@@ -69,7 +69,7 @@ By RestAPI
 	  "id": 1
 	}
 
- For updates use the ``core.playlists.save`` methode. 
+For updates use the ``core.playlists.save`` methode. 
 
 Changelog
 =========
