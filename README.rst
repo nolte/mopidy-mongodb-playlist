@@ -18,7 +18,7 @@ Mopidy-MongoDB-Playlist
    :target: https://coveralls.io/r/nolte/mopidy-mongodb-playlist
    :alt: Test coverage
 
-Mopidy extension for Foobar mechanics
+Mopidy extension for central playlist mechanics
 
 
 Installation
