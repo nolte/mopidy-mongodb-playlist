@@ -26,8 +26,6 @@ class Extension(ext.Extension):
         schema = super(Extension, self).get_config_schema()
         schema['host'] = config.String()
         schema['port'] = config.Integer()
-        # TODO: Comment in and edit, or remove entirely
-        #schema['password'] = config.Secret()
         return schema
 
     def setup(self, registry):

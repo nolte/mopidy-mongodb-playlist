@@ -1,14 +1,13 @@
 from __future__ import absolute_import, unicode_literals
 
 import contextlib
-import io
 import locale
-import logging
 import json
 import time
+import logging
+
 from mopidy.models import (
     ModelJSONEncoder, model_json_decoder)
-
 from mopidy import backend
 from pymongo import MongoClient
 from mopidy.models.serialize import ModelJSONEncoder
@@ -66,7 +65,7 @@ class MongoDBPlaylistsProvider(backend.PlaylistsProvider):
                 }})
             logger.info("save json: " +
                         json.dumps(playlist, cls=ModelJSONEncoder))
-            playlistObj = translator.playlist_from_db_object(playlistToSave)
+            translator.playlist_from_db_object(playlistToSave)
             return playlist
         else:
             return None
@@ -100,8 +99,7 @@ class MongoDBPlaylistsProvider(backend.PlaylistsProvider):
         playlist = translator.playlist_from_name(name)
         logger.info("json: " + json.dumps(playlist, cls=ModelJSONEncoder))
         playListDB = translator.playlist_to_db_object(playlist)
-        playlistId = self.db.playlist.insert_one(playListDB).inserted_id
+        self.db.playlist.insert_one(playListDB).inserted_id
         playlistDbObj = self._findPlaylistByUri(playlist.uri)
         playlistObj = translator.playlist_from_db_object(playlistDbObj)
-        logger.info("playlistId: ")
         return playlistObj

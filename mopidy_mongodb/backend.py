@@ -1,8 +1,8 @@
 from __future__ import absolute_import, unicode_literals
 
-import pykka
-
 from mopidy import backend
+
+import pykka
 
 from . import playlists
 
