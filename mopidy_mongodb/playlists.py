@@ -60,8 +60,7 @@ class MongoDBPlaylistsProvider(backend.PlaylistsProvider):
                     "last_modified": millis
 
                 }})
-            logger.debug("save json: " +
-                        json.dumps(playlist, cls=ModelJSONEncoder))
+            logger.debug("save json: " + json.dumps(playlist, cls=ModelJSONEncoder))
             translator.playlist_from_db_object(playlistToSave)
             return playlist
         else:
