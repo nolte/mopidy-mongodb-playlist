@@ -32,8 +32,10 @@ Configuration
 Before starting Mopidy, you must add configuration for
 Mopidy-MongoDB-Playlist to your Mopidy configuration file::
 
-    [mongodb-playlist]
-    # TODO: Add example of extension config
+    [mongodb]
+    enabled = true
+    host=john
+    port=27017
 
 
 Project resources
