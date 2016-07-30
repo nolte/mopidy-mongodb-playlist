@@ -6,7 +6,7 @@ from mopidy_mongodb import Extension
 
 class ExtensionTest(unittest.TestCase):
 
-    def test_get_default_config():
+    def test_get_default_config(self):
         ext = Extension()
     
         config = ext.get_default_config()
@@ -17,7 +17,7 @@ class ExtensionTest(unittest.TestCase):
         self.assertIn('port = 27017', config)            
     
     
-    def test_get_config_schema():
+    def test_get_config_schema(self):
         ext = Extension()
     
         schema = ext.get_config_schema()
