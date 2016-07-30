@@ -1,16 +1,14 @@
 from __future__ import absolute_import, unicode_literals
 
 import contextlib
-import locale
 import json
-import time
+import locale
 import logging
+import time
 
-from mopidy.models import (
-    ModelJSONEncoder, model_json_decoder)
 from mopidy import backend
-from pymongo import MongoClient
 from mopidy.models.serialize import ModelJSONEncoder
+from pymongo import MongoClient
 from . import Extension, translator
 
 logger = logging.getLogger(__name__)

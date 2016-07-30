@@ -1,12 +1,11 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import json
-import os
 import logging
+import os
 from bson import json_util
 from mopidy import models
-from mopidy.models import (
-    ModelJSONEncoder, model_json_decoder)
+from mopidy.models import (model_json_decoder)
 from mopidy.models.serialize import ModelJSONEncoder
 
 from . import Extension
