@@ -9,6 +9,8 @@ angular
 				template : 'Über unsere Pizzeria'
 			}).when('/create', {
 				templateUrl : 'create.html'
+			}).when('/playlist', {
+				templateUrl : 'playlist.html'
 			}).otherwise({
 				redirectTo : '/'
 			});
@@ -53,12 +55,25 @@ angular
 		        mopidy.on("state:online", function () {
 		        	  mopidy._send({method: "core.playlists.create",jsonrpc: "2.0", params: playlist, id: 1 }).then(function (data) {
 		        		  $log.debug('response: ', data);
-		        		  $location.path('/about');
+		        		  // $location.path('/about');
 		        		  $route.reload();
 		              });
 		        });
 			};
 
+		}]).controller('CurrentPlaylistCtrl', ['$scope','$log','$route',function($scope, $log,$route) {
+			window.mopidy = new Mopidy({callingConvention: "by-position-or-by-name"});
+			$log.debug('load trackist');
+	        mopidy.on("state:online", function () {
+	        	  mopidy._send({method: "core.tracklist.get_tracks",jsonrpc: "2.0", id: 1 }).then(function (data) {
+	        		  window.a = data;
+	        		  $scope.$apply(function () {
+	        			  $log.debug('$apply trackist',data);
+	        			  $scope.tracks = data;
+	        		  });
+	        		  // $location.path('/about');
+	              });
+	        });
 		}]);
 
 var ws = new WebSocket("ws://" + document.location.host + "/mopidy/ws/");
