@@ -11,11 +11,11 @@ Mopidy-MongoDB-Playlist
     :alt: Number of PyPI downloads
 
 .. image:: https://img.shields.io/travis//mopidy-mongodb-playlist/master.svg?style=flat
-    :target: https://travis-ci.org//mopidy-mongodb-playlist
+    :target: https://travis-ci.org/nolte/mopidy-mongodb-playlist
     :alt: Travis CI build status
 
 .. image:: https://img.shields.io/coveralls//mopidy-mongodb-playlist/master.svg?style=flat
-   :target: https://coveralls.io/r//mopidy-mongodb-playlist
+   :target: https://coveralls.io/r/nolte/mopidy-mongodb-playlist
    :alt: Test coverage
 
 Mopidy extension for Foobar mechanics
@@ -24,13 +24,7 @@ Mopidy extension for Foobar mechanics
 Installation
 ============
 
-Install by running::
-
-    pip install Mopidy-MongoDB-Playlist
-
-Or, if available, install the Debian/Ubuntu package from `apt.mopidy.com
-<http://apt.mopidy.com/>`_.
-
+ --
 
 Configuration
 =============
@@ -45,16 +39,9 @@ Mopidy-MongoDB-Playlist to your Mopidy configuration file::
 Project resources
 =================
 
-- `Source code <https://github.com//mopidy-mongodb-playlist>`_
-- `Issue tracker <https://github.com//mopidy-mongodb-playlist/issues>`_
+- `Source code <https://github.com/nolte/mopidy-mongodb-playlist>`_
+- `Issue tracker <https://github.com/nolte/mopidy-mongodb-playlist/issues>`_
 
-
-Credits
-=======
-
-- Original author: `malte <https://github.com/`__
-- Current maintainer: `malte <https://github.com/`__
-- `Contributors <https://github.com//mopidy-mongodb-playlist/graphs/contributors>`_
 
 
 Changelog
