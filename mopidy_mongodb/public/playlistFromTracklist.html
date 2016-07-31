@@ -1,5 +1,7 @@
 <div ng-controller="playlistFromTracklistCtrl">
 	<div ng-include="'tracklist.html'"></div>
+	
+	<!-- New playlist -->
 	<form novalidate angular-validator
 		angular-validator-submit='create(playlist)' name='createPlaylistForm'>
 		<div class="form-group ">
@@ -13,4 +15,7 @@
 		</div>
 		<button type="submit" class="btn btn-default">Submit</button>
 	</form>
+	
+	
+	
 </div>
