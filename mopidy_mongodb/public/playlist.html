@@ -1,10 +1,23 @@
 <div ng-controller="CurrentPlaylistCtrl">
-	playlist
-
-	<div ng-repeat="track in tracks">
-		<div>{{track.name}}</div>
-		<div>{{track.uri}}</div>
-	</div>
-c
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Index</th>
+				<th>Artist</th>
+				<th>Album</th>
+				<th>Title</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="track in tracks">
+				<td>{{ track.track_no }}</td>
+				<td><ul class="list-unstyled">
+						<li ng-repeat="artist in track.artists">{{artist.name}}</li>
+					</ul></td>
+				<td>{{ track.album.name }}</td>
+				<td>{{track.name}}</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
 
