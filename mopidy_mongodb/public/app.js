@@ -90,32 +90,20 @@ angular
 			});
 		}).controller('CartCtrl', function($scope, Cart) {
 			$scope.cart = Cart;
-		}).controller('CreateCtrl', ['$scope','$location','$log','$route',function($scope, $location,$log,$route) {
+		}).controller('CreateCtrl', ['$scope','$location','$log','$route','playlistService',function($scope, $location,$log,$route,playlistService) {
 			$scope.create = function(playlist) {
-				window.mopidy = new Mopidy({callingConvention: "by-position-or-by-name"});
-				$log.debug('create new Playlist', playlist);
-		        mopidy.on("state:online", function () {
-		        	  mopidy._send({method: "core.playlists.create",jsonrpc: "2.0", params: playlist, id: 1 }).then(function (data) {
-		        		  $log.debug('response: ', data);
-		        		  // $location.path('/about');
-		        		  $route.reload();
-		              });
-		        });
+				playlistService.createPlaylist(playlist,function(data){
+					 $route.reload();
+				})
 			};
-
-		}]).controller('CurrentTracklistCtrl', ['$scope','$log','$route',function($scope, $log,$route) {
-			window.mopidy = new Mopidy({callingConvention: "by-position-or-by-name"});
+		}]).controller('CurrentTracklistCtrl', ['$scope','$log','$route','currentTracklistService',function($scope, $log,$route,currentTracklistService) {
+			currentTracklistService.getTracks(function(tracks) {
+				$scope.$apply(function () {
+					$scope.tracks = tracks;
+					$log.debug('current tracklist are',tracks);
+				});
+			  });
 			$log.debug('load trackist');
-	        mopidy.on("state:online", function () {
-	        	  mopidy._send({method: "core.tracklist.get_tracks",jsonrpc: "2.0", id: 1 }).then(function (data) {
-	        		  window.a = data;
-	        		  $scope.$apply(function () {
-	        			  $log.debug('$apply trackist',data);
-	        			  $scope.tracks = data;
-	        		  });
-	        		  // $location.path('/about');
-	              });
-	        });
 		}]).controller('playlistFromTracklistCtrl', ['$scope','$log','$route','currentTracklistService','playlistService',function($scope, $log,$route,currentTracklistService,playlistService) {
 			window.mopidy = new Mopidy({callingConvention: "by-position-or-by-name"});
 			currentTracklistService.getTracks(function(tracks) {

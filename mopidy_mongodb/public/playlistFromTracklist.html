@@ -1,8 +1,5 @@
 <div ng-controller="playlistFromTracklistCtrl">
-<span>x{{ tracks }}</span>
-
 	<div ng-include="'tracklist.html'"></div>
-
 	<form novalidate angular-validator
 		angular-validator-submit='create(playlist)' name='createPlaylistForm'>
 		<div class="form-group ">
