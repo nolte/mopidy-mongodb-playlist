@@ -40,7 +40,14 @@ angular
 			       		callbackFn(data);
 			         });
 				});
-			};			
+			};	
+			var deletePlaylist = function (uri, callbackFn){
+				mopidyCall.callMopidy(function(mopidy){
+					mopidy._send({method: "core.playlists.delete",jsonrpc: "2.0",params: { uri: uri}, id: 1 }).then(function (data) {
+			       		callbackFn(data);
+			         });
+				});
+			};				
 			var savePlaylist = function (playlist,callbackFn){
 				mopidyCall.callMopidy(function(mopidy){
 					$log.debug("try to save playlist ",playlist)
@@ -52,6 +59,7 @@ angular
 			return {
 				createPlaylist: createPlaylist,
 				savePlaylist : savePlaylist,
+				deletePlaylist : deletePlaylist,
 				getPlaylists : getPlaylists
 		     };
 		 }).factory("currentTracklistService", function (mopidyCall) {
@@ -65,6 +73,20 @@ angular
 				getTracks: getTracks
 		     };
 		 }).controller('CreateCtrl', ['$scope','$location','$log','$route','playlistService',function($scope, $location,$log,$route,playlistService) {
+			 $scope.deletePlaylist = function(playlist) {
+					$log.debug('delete:',playlist);
+					playlistService.deletePlaylist(playlist.uri,function(data){
+						 $log.debug('deleted:',data);
+						 $route.reload();
+					});
+			 }
+			 playlistService.getPlaylists(function(playlists){
+				 $scope.$apply(function () {
+						$scope.playlists = playlists;
+						$log.debug('existing playlists are:',playlists);
+					});
+			 });
+			 
 			$scope.create = function(playlist) {
 				playlistService.createPlaylist(playlist,function(data){
 					 $route.reload();
