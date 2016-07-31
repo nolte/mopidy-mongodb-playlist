@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-		.module('playlist-manager', ['angularValidator', 'ngAnimate', 'ngRoute' ])
+		.module('playlist-manager', ['angularValidator', 'ngAnimate', 'ngRoute','playlist-manager.mopidy' ])
 		.config(function($routeProvider) {
 			$routeProvider.when('/', {
 				templateUrl : 'tracklist.html'
@@ -16,113 +16,47 @@ angular
 			}).otherwise({
 				redirectTo : '/'
 			});
-		}).factory("mopidyCall", function () {
-			var callMopidy = function (callbackFn){
-				window.mopidy = new Mopidy({callingConvention: "by-position-or-by-name"});
-				mopidy.on("state:online", function () {
-					callbackFn(mopidy);
-			    });
-			};
-			return {
-				callMopidy: callMopidy
-		     };
-		 }).factory("playlistService", function ($log,mopidyCall) {
-			var createPlaylist = function (playlist,callbackFn){
-				mopidyCall.callMopidy(function(mopidy){
-					mopidy._send({method: "core.playlists.create",jsonrpc: "2.0", params: playlist, id: 1 }).then(function (data) {
-			       		callbackFn(data);
-			         });
-				});
-			};
-			var getPlaylists = function (callbackFn){
-				mopidyCall.callMopidy(function(mopidy){
-					mopidy._send({method: "core.playlists.as_list",jsonrpc: "2.0", id: 1 }).then(function (data) {
-			       		callbackFn(data);
-			         });
-				});
-			};	
-			var deletePlaylist = function (playlist, callbackFn){
-				mopidyCall.callMopidy(function(mopidy){
-					mopidy._send({method: "core.playlists.delete",jsonrpc: "2.0",params: { uri: playlist.uri}, id: 1 }).then(function (data) {
-						$log.debug('delete playlist response:',data);
-			       		callbackFn(true);
-			         });
-				});
-			};				
-			var savePlaylist = function (playlist,callbackFn){
-				mopidyCall.callMopidy(function(mopidy){
-					$log.debug("try to save playlist ",playlist)
-					mopidy._send({method: "core.playlists.save",jsonrpc: "2.0", params: { playlist : playlist }, id: 1 }).then(function (data) {
-			       		callbackFn(data);
-			         });
-				});
-			};			
-			return {
-				createPlaylist: createPlaylist,
-				savePlaylist : savePlaylist,
-				deletePlaylist : deletePlaylist,
-				getPlaylists : getPlaylists
-		     };
-		 }).factory("currentTracklistService", function (mopidyCall) {
-			var getTracks = function (callbackFn){
-				mopidyCall.callMopidy(function(mopidy){
-			       	  mopidy._send({method: "core.tracklist.get_tracks",jsonrpc: "2.0", id: 1 }).then(function (data) {
-			       		callbackFn(data);
-			             });
-			})};
-			return {
-				getTracks: getTracks
-		     };
-		 }).controller('PlaylistsCtrl', ['$scope','$location','$log','$route','playlistService',function($scope, $location,$log,$route,playlistService) {
-			 playlistService.getPlaylists(function(playlists){
-				 $scope.$apply(function () {
+		}).controller('AppCtrl', ['$scope','$log','mopidyservice',function($scope, $log,mopidyservice) {
+			 mopidyservice.start();
+			$log.debug('AppCtrl');
+		}])
+		 .controller('PlaylistsCtrl', ['$scope','$location','$log','$route','mopidyservice',function($scope, $location,$log,$route,mopidyservice) {
+			 mopidyservice.getPlaylists().then(function(playlists) {
 						$scope.playlists = playlists;
-						
-					});
 			 });
 			 
 			 $scope.deletePlaylist = function(playlist) {
 					$log.debug('delete:',playlist);
-					playlistService.deletePlaylist(playlist,function(data){
-						 $log.debug('deleted:',data);
-						 $route.reload();
-					});
+					 mopidyservice.deletePlaylist(playlist.uri).then(function(data) {
+						 $log.debug('removed:',data);
+					 });
 			 }
-			 playlistService.getPlaylists(function(playlists){
-				 $scope.$apply(function () {
-						$scope.playlists = playlists;
-						$log.debug('existing playlists are:',playlists);
-					});
-			 });
-			 
-		}]).controller('CreateCtrl', ['$scope','$location','$log','$route','playlistService',function($scope, $location,$log,$route,playlistService) {
+		}]).controller('CreateCtrl', ['$scope','$location','$log','$route','mopidyservice',function($scope, $location,$log,$route,mopidyservice) {
 			$scope.create = function(playlist) {
-				playlistService.createPlaylist(playlist,function(data){
-					 $route.reload();
-				})
+//				playlistService.createPlaylist(playlist,function(data){
+//					 $route.reload();
+//				})
 			};
-		}]).controller('CurrentTracklistCtrl', ['$scope','$log','$route','currentTracklistService',function($scope, $log,$route,currentTracklistService) {
-			currentTracklistService.getTracks(function(tracks) {
-				$scope.$apply(function () {
-					$scope.tracks = tracks;
-					$log.debug('current tracklist are',tracks);
-				});
-			  });
+		}]).controller('CurrentTracklistCtrl', ['$scope','$log','$route','mopidyservice',function($scope, $log,$route,mopidyservice) {
+			mopidyservice.getCurrentTrackList().then(function(data) {
+				$log.debug('Rock Die Bohne',data);
+				$scope.tracks = data;
+			})
 			$log.debug('load trackist');
-		}]).controller('playlistFromTracklistCtrl', ['$scope','$log','$route','currentTracklistService','playlistService',function($scope, $log,$route,currentTracklistService,playlistService) {
-			currentTracklistService.getTracks(function(tracks) {
-				    $scope.tracks = tracks;
-				  });
+		}]).controller('playlistFromTracklistCtrl', ['$scope','$log','$route','mopidyservice',function($scope, $log,$route,mopidyservice) {
+			
 			$scope.playlist = { uri_scheme: "mongodb" };
 			$log.debug('playlistFromTracklistCtrl');
 			$scope.create = function(playlist) {
-				playlistService.createPlaylist(playlist,function(data){
-					data.tracks = $scope.tracks;
-					$log.debug('tracklist saved',data);
-					playlistService.savePlaylist(data,function(savedPlaylist){
-						$log.debug('playlist saved',savedPlaylist);
+				mopidyservice.createPlaylist(playlist.name,playlist.uri_scheme).then(function(data) {
+					mopidyservice.getCurrentTrackList().then(function(currentTracklist) {
+						$log.debug('Rock Die Bohne',currentTracklist);
+						data.tracks = currentTracklist;
+						mopidyservice.savePlaylist(data).then(function(saved) {
+							$log.debug('Plaaylist saved 111',saved);
+						});
 					})
-					
+					$log.debug('Plaaylist saved xxxx',data);
 				})
 				$log.debug('create from tracklist',$scope.tracks);
 			};
