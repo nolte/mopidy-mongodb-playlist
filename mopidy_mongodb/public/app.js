@@ -41,10 +41,11 @@ angular
 			         });
 				});
 			};	
-			var deletePlaylist = function (uri, callbackFn){
+			var deletePlaylist = function (playlist, callbackFn){
 				mopidyCall.callMopidy(function(mopidy){
-					mopidy._send({method: "core.playlists.delete",jsonrpc: "2.0",params: { uri: uri}, id: 1 }).then(function (data) {
-			       		callbackFn(data);
+					mopidy._send({method: "core.playlists.delete",jsonrpc: "2.0",params: { uri: playlist.uri}, id: 1 }).then(function (data) {
+						$log.debug('delete playlist response:',data);
+			       		callbackFn(true);
 			         });
 				});
 			};				
@@ -72,10 +73,17 @@ angular
 			return {
 				getTracks: getTracks
 		     };
-		 }).controller('CreateCtrl', ['$scope','$location','$log','$route','playlistService',function($scope, $location,$log,$route,playlistService) {
+		 }).controller('PlaylistsCtrl', ['$scope','$location','$log','$route','playlistService',function($scope, $location,$log,$route,playlistService) {
+			 playlistService.getPlaylists(function(playlists){
+				 $scope.$apply(function () {
+						$scope.playlists = playlists;
+						
+					});
+			 });
+			 
 			 $scope.deletePlaylist = function(playlist) {
 					$log.debug('delete:',playlist);
-					playlistService.deletePlaylist(playlist.uri,function(data){
+					playlistService.deletePlaylist(playlist,function(data){
 						 $log.debug('deleted:',data);
 						 $route.reload();
 					});
@@ -87,6 +95,7 @@ angular
 					});
 			 });
 			 
+		}]).controller('CreateCtrl', ['$scope','$location','$log','$route','playlistService',function($scope, $location,$log,$route,playlistService) {
 			$scope.create = function(playlist) {
 				playlistService.createPlaylist(playlist,function(data){
 					 $route.reload();
@@ -120,10 +129,10 @@ angular
 			
 		}]);
 
-var ws = new WebSocket("ws://" + document.location.host + "/mopidy/ws/");
-ws.onmessage = function (message) {
-    // var console = document.getElementById('ws-console');
-	// var newLine = (new Date()).toLocaleTimeString() + ": " +
-	//   message.data + "\n";
-	// console.innerHTML = newLine + console.innerHTML;
-};
+//var ws = new WebSocket("ws://" + document.location.host + "/mopidy/ws/");
+//ws.onmessage = function (message) {
+//     var console = document.getElementById('ws-console');
+//	 var newLine = (new Date()).toLocaleTimeString() + ": " +
+//	   message.data + "\n";
+//	 console.innerHTML = newLine + console.innerHTML;
+//};
