@@ -34,6 +34,13 @@ angular
 			         });
 				});
 			};
+			var getPlaylists = function (callbackFn){
+				mopidyCall.callMopidy(function(mopidy){
+					mopidy._send({method: "core.playlists.as_list",jsonrpc: "2.0", id: 1 }).then(function (data) {
+			       		callbackFn(data);
+			         });
+				});
+			};			
 			var savePlaylist = function (playlist,callbackFn){
 				mopidyCall.callMopidy(function(mopidy){
 					$log.debug("try to save playlist ",playlist)
@@ -44,7 +51,8 @@ angular
 			};			
 			return {
 				createPlaylist: createPlaylist,
-				savePlaylist : savePlaylist
+				savePlaylist : savePlaylist,
+				getPlaylists : getPlaylists
 		     };
 		 }).factory("currentTracklistService", function (mopidyCall) {
 			var getTracks = function (callbackFn){
