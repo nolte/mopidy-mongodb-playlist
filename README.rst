@@ -79,6 +79,11 @@ v1.0.0 (PLANED)
 
 - Frontend to Managed Playlists
 
+v0.5.0 (in work)
+----------------------------------------
+
+- Save the current Tracklist as new Playlist, with AngularJS frontend.
+
 v0.1.0 (UNRELEASED)
 ----------------------------------------
 
