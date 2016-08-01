@@ -10,12 +10,12 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="track in tracks">
-				<td>{{ track.track_no }}</td>
+				<td>{{ $index + 1 }}</td>
 				<td><ul class="list-unstyled">
-						<li ng-repeat="artist in track.artists">{{artist.name}}</li>
+						<li ng-repeat="artist in track.artists">{{ artist.name }}</li>
 					</ul></td>
 				<td>{{ track.album.name }}</td>
-				<td>{{track.name}}</td>
+				<td>{{ track.name }}</td>
 			</tr>
 		</tbody>
 	</table>

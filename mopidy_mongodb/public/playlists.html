@@ -1,14 +1,12 @@
 <table class="table table-striped"  ng-controller="PlaylistsCtrl">
 	<thead>
 		<tr>
-			<th>Index</th>
 			<th>Name</th>
 			<th>Action</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="playlist in playlists">
-			<td>{{ $index + 1 }}</td>
 			<td>{{ playlist.name }}</td>
 			<td>
 				<button type="button" class="btn btn-default" ng-click="deletePlaylist(playlist)"

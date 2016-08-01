@@ -57,11 +57,11 @@ angular.module('playlist-manager.mopidy', [])
       currentTlTracks: [],
       start: function() {
         var self = this;
-        $rootScope.$broadcast('moped:mopidystarting');
+        $rootScope.$broadcast('playlist-manager:mopidystarting');
 
-        if (window.localStorage && localStorage['moped.mopidyUrl']) {
+        if (window.localStorage && localStorage['playlist-manager.mopidyUrl']) {
           this.mopidy = new Mopidy({
-            webSocketUrl: localStorage['moped.mopidyUrl'],
+            webSocketUrl: localStorage['playlist-manager.mopidyUrl'],
             callingConvention: 'by-position-or-by-name'
           });
         }
@@ -73,7 +73,7 @@ angular.module('playlist-manager.mopidy', [])
 //        this.mopidy.on(consoleLog);
         // Convert Mopidy events to Angular events
         this.mopidy.on(function(ev, args) {
-          $rootScope.$broadcast('mopidy:' + ev, args);
+          $rootScope.$broadcast('playlist-manager:' + ev, args);
           if (ev === 'state:online') {
             self.isConnected = true;
           }
@@ -82,14 +82,14 @@ angular.module('playlist-manager.mopidy', [])
           }
         });
 
-        $rootScope.$broadcast('moped:mopidystarted');
+        $rootScope.$broadcast('playlist-manager:mopidystarted');
       },
       stop: function() {
-        $rootScope.$broadcast('moped:mopidystopping');
+        $rootScope.$broadcast('playlist-manager:mopidystopping');
         this.mopidy.close();
         this.mopidy.off();
         this.mopidy = null;
-        $rootScope.$broadcast('moped:mopidystopped');
+        $rootScope.$broadcast('playlist-manager:mopidystopped');
       },
       restart: function() {
         this.stop();
@@ -116,8 +116,8 @@ angular.module('playlist-manager.mopidy', [])
       deletePlaylist: function (uri) {
           return wrapMopidyFunc("mopidy.playlists.delete", this)({ uri: uri });
       },
-      createPlaylist: function (name,uri_scheme) {
-        return wrapMopidyFunc("mopidy.playlists.create", this)({ name : name ,uri_scheme:uri_scheme});
+      createPlaylist: function (name, uri_scheme) {
+        return wrapMopidyFunc("mopidy.playlists.create", this)({ name: name, uri_scheme: uri_scheme });
       }
     };
   });
