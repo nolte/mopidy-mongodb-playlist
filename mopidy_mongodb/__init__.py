@@ -36,4 +36,4 @@ class Extension(ext.Extension):
         registry.add('http:static', {
             'name': self.ext_name,
             'path': os.path.join(os.path.dirname(__file__), 'public'),
-        })        
+        })
