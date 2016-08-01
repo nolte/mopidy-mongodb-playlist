@@ -33,3 +33,7 @@ class Extension(ext.Extension):
         logger.debug("init the mopdiy extention")
         from .backend import MongoDBBackend
         registry.add('backend', MongoDBBackend)
+        registry.add('http:static', {
+            'name': self.ext_name,
+            'path': os.path.join(os.path.dirname(__file__), 'public'),
+        })        

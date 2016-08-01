@@ -1,0 +1,20 @@
+<table class="table table-striped"  ng-controller="PlaylistsCtrl">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="playlist in playlists">
+			<td>{{ playlist.name }}</td>
+			<td>
+				<button type="button" class="btn btn-default" ng-click="deletePlaylist(playlist)"
+					aria-label="Left Align">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+				</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+

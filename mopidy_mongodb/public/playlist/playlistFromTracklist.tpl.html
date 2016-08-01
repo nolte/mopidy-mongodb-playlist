@@ -1,0 +1,10 @@
+<form angular-validator
+	angular-validator-submit='create(playlist)' name='createPlaylistForm'
+	class="form-inline" ng-controller="playlistFromTracklistCtrl">
+	<div class="form-group ">
+		<label for="name">Name</label> 
+		<input type="text" id="name"
+			name="name" class="form-control" ng-model="playlist.name" required>
+	</div>
+	<button type="submit" class="btn btn-default">Submit</button>
+</form>
