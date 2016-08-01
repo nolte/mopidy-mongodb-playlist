@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-		.module('playlist-manager', ['angularValidator', 'ngAnimate', 'ngRoute','playlist-manager.mopidy' ])
+		.module('playlist-manager', ['angularValidator', 'ngAnimate', 'ngRoute','playlist-manager.mopidy','playlist-manager.tracklist' ])
 		.config(function($routeProvider) {
 			$routeProvider.when('/', {
 				templateUrl : 'main.html'
@@ -24,10 +24,6 @@ angular
 						 $route.reload();
 					 });
 			 }
-		}]).controller('CurrentTracklistCtrl', ['$scope','$log','$route','mopidyservice',function($scope, $log,$route,mopidyservice) {
-			mopidyservice.getCurrentTrackList().then(function(data) {
-				$scope.tracks = data;
-			})
 		}]).controller('playlistFromTracklistCtrl', ['$scope','$log','$route','$location','mopidyservice',function($scope, $log,$route,$location,mopidyservice) {
 			$log.debug('playlistFromTracklistCtrl');
 			$scope.create = function(playlist) {
