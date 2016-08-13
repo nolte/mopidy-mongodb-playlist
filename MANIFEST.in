@@ -4,5 +4,5 @@ include MANIFEST.in
 include README.rst
 include mopidy_mongodb/ext.conf
 include tox.ini
-
+recursive-include mopidy_mongodb/public/*
 recursive-include tests *.py
